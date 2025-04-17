@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureBytesBlog - Cybersecurity for Non-Techies</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .card-transition {
+      transition: all 0.3s ease;
+    }
+    .dark-mode {
+      background-color: #1a202c;
+      color: #f7fafc;
+    }
+    .dark-mode .card {
+      background-color: #2d3748;
+      border-color: #4a5568;
+    }
+    .dark-mode .bg-gray-100 {
+      background-color: #4a5568;
+    }
+    .dark-mode .text-gray-600, 
+    .dark-mode .text-gray-500 {
+      color: #cbd5e0;
+    }
+    .dark-mode .text-gray-800 {
+      color: #f7fafc;
+    }
+    .dark-mode .bg-gray-50 {
+      background-color: #1a202c;
+    }
+    .dark-mode .bg-white {
+      background-color: #2d3748;
+    }
+    .dark-mode .border-gray-200 {
+      border-color: #4a5568;
+    }
+    .dark-mode .text-blue-600 {
+      color: #63b3ed;
+    }
+    .dark-mode .bg-blue-50 {
+      background-color: #2c5282;
+    }
+    .dark-mode .newsletter {
+      background-color: #2d3748;
+    }
+    .tag {
+      cursor: pointer;
+    }
+    .tag:hover {
+      opacity: 0.8;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-blue-600 py-4 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-shield-alt text-white"></i>
+        <h1 class="text-2xl font-bold text-white">SecureBytesBlog</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button id="darkModeToggle" class="text-white px-4 py-2 rounded-md hover:bg-blue-700">
+          <i class="fas fa-moon mr-1"></i> Dark Mode
+        </button>
+        <button class="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-100">
+          Subscribe
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="bg-blue-500 text-white py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-2xl">
+        <h1 class="text-4xl font-bold mb-4">🛡️ Cybersecurity for Non-Techies</h1>
+        <p class="text-xl mb-6">Panduan santai buat kamu yang pengin lebih aman di dunia digital, tanpa ribet teknis.</p>
+        <div class="relative">
+          <input 
+            id="searchInput" 
+            type="text" 
+            placeholder="Cari artikel cybersecurity..." 
+            class="pl-10 pr-4 py-3 rounded-lg w-full bg-white text-gray-800"
+          >
+          <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Popular Tags -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">
+        Popular Tags
+      </h2>
+      <div class="flex flex-wrap gap-2" id="tagContainer">
+        <button 
+          class="tag-filter active-tag bg-blue-600 text-white px-4 py-1 rounded-full text-sm"
+          data-tag=""
+        >
+          All
+        </button>
+        <button 
+          class="tag-filter bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm tag"
+          data-tag="cybersecurity"
+        >
+          #cybersecurity
+        </button>
+        <button 
+          class="tag-filter bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm tag"
+          data-tag="privasi"
+        >
+          #privasi
+        </button>
+        <button 
+          class="tag-filter bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm tag"
+          data-tag="password"
+        >
+          #password
+        </button>
+        <button 
+          class="tag-filter bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm tag"
+          data-tag="keamanan digital"
+        >
+          #keamanan digital
+        </button>
+        <button 
+          class="tag-filter bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm tag"
+          data-tag="phishing"
+        >
+          #phishing
+        </button>
+        <button 
+          class="tag-filter bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm tag"
+          data-tag="vpn"
+        >
+          #vpn
+        </button>
+        <button 
+          class="tag-filter bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm tag"
+          data-tag="malware"
+        >
+          #malware
+        </button>
+      </div>
+    </div>
+
+    <!-- Featured Articles -->
+    <div class="mb-12" id="featuredSection">
+      <h2 class="text-2xl font-semibold mb-6 flex items-center text-gray-800">
+        <i class="fas fa-star mr-2"></i> Featured Articles
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6" id="featuredArticles">
+        <!-- Featured article cards will be inserted here by JavaScript -->
+      </div>
+    </div>
+
+    <!-- All Articles -->
+    <div>
+      <h2 class="text-2xl font-semibold mb-6 flex items-center text-gray-800" id="articlesTitle">
+        <i class="fas fa-lock mr-2"></i> Latest Articles
+      </h2>
+      
+      <div id="noResults" class="text-center py-12 text-gray-500 hidden">
+        <i class="fas fa-search fa-3x mb-4 opacity-50"></i>
+        <h3 class="text-xl font-medium mb-2">No articles found</h3>
+        <p>Try searching with different keywords or tags</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="articleContainer">
+        <!-- Article cards will be inserted here by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="mt-16 p-8 rounded-xl bg-blue-50 flex flex-col md:flex-row items-center justify-between newsletter">
+      <div class="md:w-2/3 mb-6 md:mb-0">
+        <h3 class="text-xl font-bold mb-2 text-gray-800">
+          Tetap Update dengan Tips Keamanan Digital Terbaru
+        </h3>
+        <p class="text-gray-600">
+          Dapatkan artikel & panduan cybersecurity terbaru langsung ke email kamu, tanpa spam.
+        </p>
+      </div>
+      <div class="md:w-1/3 flex">
+        <input 
+          type="email" 
+          placeholder="Email kamu" 
+          class="border border-gray-300 rounded-l px-4 py-2 w-full"
+        >
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-r">Subscribe</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-8 mt-12 bg-gray-100 text-gray-600">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center flex-col md:flex-row">
+        <div class="mb-4 md:mb-0">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-shield-alt"></i>
+            <span class="font-bold">SecureBytesBlog</span>
+          </div>
+          <p class="text-sm mt-2">Cybersecurity for non-techies, explained simply</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:underline">About</a>
+          <a href="#" class="hover:underline">Contact</a>
+          <a href="#" class="hover:underline">Privacy Policy</a>
+          <a href="#" class="hover:underline">Terms</a>
+        </div>
+      </div>
+      <div class="mt-8 pt-6 border-t border-gray-200 text-sm text-center">
+        © 2025 SecureBytesBlog. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Article data
+    const articles = [
+      {
+        title: "Cybersecurity Itu Gak Ribet: Panduan Gampang Buat Orang Awam",
+        slug: "/panduan-cybersecurity-untuk-pemula",
+        excerpt:
+          "Belajar dasar cybersecurity dengan cara yang gampang dan ringan. Cocok untuk kamu yang gak paham teknologi tapi pengin tetap aman di internet.",
+        tags: ["cybersecurity", "keamanan digital", "pemula"],
+        date: "17 April 2025",
+        readTime: "5 menit",
+        featured: true,
+        image: "https://via.placeholder.com/800x450"
+      },
+      {
+        title: "Password yang Aman Gak Perlu Bikin Pusing",
+        slug: "/password-kuat-gampang",
+        excerpt:
+          "Tips mudah bikin password yang kuat tanpa pusing. Cocok untuk pemula dan non-techies. Plus rekomendasi password manager terbaik.",
+        tags: ["password", "cybersecurity", "password manager"],
+        date: "10 April 2025",
+        readTime: "4 menit",
+        featured: false,
+        image: "https://via.placeholder.com/800x450"
+      },
+      {
+        title: "Phishing: Cara Penipu Digital Menjebak Kamu",
+        slug: "/cara-menghindari-phishing",
+        excerpt:
+          "Phishing itu bukan cuma email aneh — bisa datang dari WhatsApp, Instagram, atau teman sendiri. Pelajari cara deteksi & hindarinya dengan mudah.",
+        tags: ["phishing", "scam", "keamanan digital"],
+        date: "5 April 2025",
+        readTime: "6 menit",
+        featured: true,
+        image: "https://via.placeholder.com/800x450"
+      },
+      {
+        title: "Privasi di WhatsApp, Instagram & Google: Cara Gampang Biar Gak Gampang Dicari",
+        slug: "/atur-privasi-sosmed-google",
+        excerpt:
+          "Belajar cara atur privasi di WhatsApp, Instagram & Google dalam beberapa langkah gampang. Cocok buat kamu yang pengin tetap eksis tapi aman.",
+        tags: ["privasi", "whatsapp", "instagram", "google", "cyber hygiene"],
+        date: "1 April 2025",
+        readTime: "7 menit",
+        featured: false,
+        image: "https://via.placeholder.com/800x450"
+      },
+      {
+        title: "VPN: Perlu Gak Sih dan Cara Pilih yang Bener",
+        slug: "/vpn-untuk-pemula",
+        excerpt:
+          "Kebanyakan iklan VPN bikin bingung? Artikel ini jelasin bedanya VPN bagus dan VPN abal-abal, plus kapan kamu beneran perlu pake VPN.",
+        tags: ["vpn", "privasi", "keamanan jaringan"],
+        date: "25 Maret 2025",
+        readTime: "8 menit",
+        featured: false,
+        image: "https://via.placeholder.com/800x450"
+      },
+      {
+        title: "Ponsel Kamu Dihack? Begini Cara Cek dan Solusinya",
+        slug: "/cek-keamanan-ponsel",
+        excerpt:
+          "Ponsel lemot, baterai cepat habis, atau ada aktivitas aneh? Cek apakah ponselmu dihack dan langkah-langkah praktis untuk mengamankannya kembali.",
+        tags: ["keamanan ponsel", "malware", "hacking"],
+        date: "20 Maret 2025",
+        readTime: "5 menit",
+        featured: false,
+        image: "https://via.placeholder.com/800x450"
+      }
+    ];
+
+    // DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const tagButtons = document.querySelectorAll('.tag-filter');
+    const articleContainer = document.getElementById('articleContainer');
+    const featuredArticles = document.getElementById('featuredArticles');
+    const featuredSection = document.getElementById('featuredSection');
+    const noResults = document.getElementById('noResults');
+    const articlesTitle = document.getElementById('articlesTitle');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    // Variables
+    let currentSearch = "";
+    let currentTag = "";
+    let isDarkMode = false;
+
+    // Functions
+    function renderArticles() {
+      // Filter articles based on search and active tag
+      const filtered = articles.filter(article =>
+        (article.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+        article.tags.some(tag => tag.toLowerCase().includes(currentSearch.toLowerCase()))) &&
+        (currentTag === "" || article.tags.includes(currentTag))
+      );
+
+      // Update title
+      if (currentSearch !== "" || currentTag !== "") {
+        articlesTitle.innerHTML = `<i class="fas fa-search mr-2"></i> Search Results`;
+        featuredSection.classList.add('hidden');
+      } else {
+        articlesTitle.innerHTML = `<i class="fas fa-lock mr-2"></i> Latest Articles`;
+        featuredSection.classList.remove('hidden');
+      }
+
+      // Show/hide no results message
+      if (filtered.length === 0) {
+        noResults.classList.remove('hidden');
+        articleContainer.classList.add('hidden');
+      } else {
+        noResults.classList.add('hidden');
+        articleContainer.classList.remove('hidden');
+      }
+
+      // Clear container
+      articleContainer.innerHTML = '';
+
+      // Render filtered articles
+      filtered.forEach(article => {
+        const articleCard = createArticleCard(article);
+        articleContainer.appendChild(articleCard);
+      });
+
+      // Render featured articles if in default view
+      if (currentSearch === "" && currentTag === "") {
+        featuredArticles.innerHTML = '';
+        const featuredList = articles.filter(article => article.featured);
+        featuredList.forEach(article => {
+          const featuredCard = createFeaturedCard(article);
+          featuredArticles.appendChild(featuredCard);
+        });
+      }
+    }
+
+    function createArticleCard(article) {
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-lg shadow card-transition card-hover p-5';
+      
+      const tagElements = article.tags.map(tag => 
+        `<span 
+          class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 tag" 
+          data-tag="${tag}"
+        >
+          #${tag}
+        </span>`
+      ).join(' ');
+
+      card.innerHTML = `
+        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-2">
+          <i class="far fa-clock"></i>
+          <span>${article.date}</span>
+          <span>•</span>
+          <span>${article.readTime}</span>
+        </div>
+        <a href="${article.slug}" class="text-xl font-semibold hover:underline block mb-2 text-blue-600">
+          ${article.title}
+        </a>
+        <p class="mb-4 text-gray-600">${article.excerpt}</p>
+        <div class="flex flex-wrap gap-2">
+          ${tagElements}
+        </div>
+      `;
+
+      // Add event listeners to tags
+      setTimeout(() => {
+        const tagSpans = card.querySelectorAll('.tag');
+        tagSpans.forEach(tagSpan => {
+          tagSpan.addEventListener('click', () => {
+            const tag = tagSpan.getAttribute('data-tag');
+            updateActiveTag(tag);
+          });
+        });
+      }, 0);
+
+      return card;
+    }
+
+    function createFeaturedCard(article) {
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-lg shadow overflow-hidden card-transition card-hover';
+      
+      const tagElements = article.tags.slice(0, 3).map(tag => 
+        `<span 
+          class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 tag" 
+          data-tag="${tag}"
+        >
+          #${tag}
+        </span>`
+      ).join(' ');
+
+      card.innerHTML = `
+        <img src="${article.image}" alt="${article.title}" class="w-full h-48 object-cover">
+        <div class="p-5">
+          <div class="flex items-center space-x-2 text-sm text-gray-500 mb-2">
+            <i class="far fa-clock"></i>
+            <span>${article.date}</span>
+            <span>•</span>
+            <span>${article.readTime}</span>
+          </div>
+          <a href="${article.slug}" class="text-xl font-semibold hover:underline block mb-2 text-blue-600">
+            ${article.title}
+          </a>
+          <p class="mb-4 text-gray-600">${article.excerpt}</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            ${tagElements}
+          </div>
+          <button class="mt-2 border border-gray-300 rounded-md px-4 py-2 text-sm flex items-center hover:bg-gray-50">
+            Baca Selengkapnya <i class="fas fa-chevron-right ml-1"></i>
+          </button>
+        </div>
+      `;
+
+      // Add event listeners to tags
+      setTimeout(() => {
+        const tagSpans = card.querySelectorAll('.tag');
+        tagSpans.forEach(tagSpan => {
+          tagSpan.addEventListener('click', () => {
+            const tag = tagSpan.getAttribute('data-tag');
+            updateActiveTag(tag);
+          });
+        });
+      }, 0);
+
+      return card;
+    }
+
+    function updateActiveTag(tag) {
+      currentTag = tag;
+      
+      // Update UI for tag buttons
+      tagButtons.forEach(button => {
+        const buttonTag = button.getAttribute('data-tag');
+        if (buttonTag === tag) {
+          button.classList.add('bg-blue-600', 'text-white');
+          button.classList.remove('bg-gray-200', 'text-gray-700');
+        } else {
+          button.classList.remove('bg-blue-600', 'text-white');
+          button.classList.add('bg-gray-200', 'text-gray-700');
+        }
+      });
+      
+      renderArticles();
+    }
+
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.innerHTML = '<i class="fas fa-sun mr-1"></i> Light Mode';
+      } else {
+        document.body.classList.remove('dark-mode');
+        darkModeToggle.innerHTML = '<i class="fas fa-moon mr-1"></i> Dark Mode';
+      }
+    }
+
+    // Event Listeners
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value;
+      renderArticles();
+    });
+
+    tagButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const tag = button.getAttribute('data-tag');
+        updateActiveTag(tag);
+      });
+    });
+
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+
+    // Initialize
+    renderArticles();
+  </script>
+</body>
+</html>
